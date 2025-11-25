@@ -10,7 +10,7 @@ $rowLevelMenus = mysqli_fetch_all($querylevelMenu, MYSQLI_ASSOC);
     <ul class="sidebar-nav" id="sidebar-nav">
         <?php foreach ($rowLevelMenus as $rowLevelMenu): ?>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?= $rowLevelMenu['link'] ?>">
+                <a class="nav-link collapsed" href="?page=<?= $rowLevelMenu['link'] ?>">
                     <i class="<?= $rowLevelMenu['icon'] ?>"></i>
                     <span><?= $rowLevelMenu['name'] ?></span>
                 </a>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2025 at 08:24 AM
+-- Generation Time: Nov 25, 2025 at 08:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `name`, `phone`, `address`, `created_at`, `updated_at`) VALUES
-(1, 'Rioooo', '0812345888', 'Jakarta Utara', '2025-11-24 07:05:32', '2025-11-24 07:06:05');
+(1, 'Enrio', '0812345888', 'Jakarta Utara', '2025-11-24 07:05:32', '2025-11-25 03:00:10'),
+(2, 'Hernanda', '0812345888', 'Bandung', '2025-11-25 02:59:54', '2025-11-25 03:00:04');
 
 -- --------------------------------------------------------
 
@@ -64,6 +65,63 @@ INSERT INTO `levels` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Administrator', '2025-11-24 04:52:05', NULL),
 (2, 'Operator', '2025-11-24 04:52:33', NULL),
 (3, 'Pimpinan', '2025-11-24 04:52:39', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `level_menus`
+--
+
+CREATE TABLE `level_menus` (
+  `id` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `level_menus`
+--
+
+INSERT INTO `level_menus` (`id`, `level_id`, `menu_id`, `created_at`, `updated_at`) VALUES
+(4, 3, 1, '2025-11-25 02:56:18', NULL),
+(34, 1, 6, '2025-11-25 06:28:16', NULL),
+(35, 1, 5, '2025-11-25 06:28:16', NULL),
+(36, 1, 4, '2025-11-25 06:28:16', NULL),
+(37, 1, 3, '2025-11-25 06:28:16', NULL),
+(38, 1, 2, '2025-11-25 06:28:16', NULL),
+(39, 1, 1, '2025-11-25 06:28:16', NULL),
+(41, 2, 3, '2025-11-25 06:41:17', NULL),
+(42, 2, 2, '2025-11-25 06:41:17', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menus`
+--
+
+CREATE TABLE `menus` (
+  `id` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `icon` varchar(30) NOT NULL,
+  `link` varchar(30) NOT NULL,
+  `order` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `menus`
+--
+
+INSERT INTO `menus` (`id`, `name`, `icon`, `link`, `order`, `created_at`, `updated_at`) VALUES
+(1, 'User', 'bi bi-person', 'user', 6, '2025-11-25 01:42:45', '2025-11-25 07:40:47'),
+(2, 'Menu', 'bi bi-menu-button-wide', 'menu', 4, '2025-11-25 01:48:12', '2025-11-25 07:40:42'),
+(3, 'Service', 'bi bi-book', 'service', 3, '2025-11-25 02:32:14', '2025-11-25 07:40:39'),
+(4, 'Customer', 'bi bi-people', 'customer', 2, '2025-11-25 03:47:37', '2025-11-25 07:40:33'),
+(5, 'Level', 'bi bi-book', 'level', 5, '2025-11-25 03:47:55', '2025-11-25 07:40:29'),
+(6, 'Dashboard', 'bi bi-speedometer', 'dashboard', 1, '2025-11-25 05:01:53', '2025-11-25 07:38:46');
 
 -- --------------------------------------------------------
 
@@ -133,6 +191,7 @@ CREATE TABLE `trans_order_details` (
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
@@ -144,8 +203,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', '2025-11-24 02:56:13', NULL);
+INSERT INTO `users` (`id`, `level_id`, `name`, `email`, `password`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Admin', 'admin@gmail.com', '6b63d2a490228d003c055c36430ba00666db7ff7', '2025-11-24 02:56:13', '2025-11-25 04:58:18'),
+(2, 2, 'Enrio', 'enrio@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', '2025-11-25 06:26:28', NULL),
+(3, 3, 'hernanda', 'hernanda@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', '2025-11-25 06:40:38', NULL);
 
 --
 -- Indexes for dumped tables
@@ -161,6 +222,18 @@ ALTER TABLE `customers`
 -- Indexes for table `levels`
 --
 ALTER TABLE `levels`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `level_menus`
+--
+ALTER TABLE `level_menus`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `menus`
+--
+ALTER TABLE `menus`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -195,13 +268,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `levels`
 --
 ALTER TABLE `levels`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `level_menus`
+--
+ALTER TABLE `level_menus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT for table `menus`
+--
+ALTER TABLE `menus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -225,7 +310,7 @@ ALTER TABLE `trans_order_details`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
