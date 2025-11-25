@@ -50,9 +50,8 @@ if (isset($_POST['update'])) {
                         <input type="text" class="form-control w-50" name="phone"
                             value="<?php echo $customer['phone'] ?? '' ?>" required>
                         <label for="" class="form-label">Address</label> <br>
-                        <input type="text" class="form-control w-50" name="address"
+                        <input type="text" class="form-control w-50 mb-3" name="address"
                             value="<?php echo $customer['address'] ?? '' ?>" required>
-                        <br><br>
                         <button type="submit" class="btn btn-primary"
                             name="<?= isset($_GET['edit']) ? 'update' : 'save' ?>"><?= isset($_GET['edit']) ? 'edit' : 'create' ?></button>
                     </form>

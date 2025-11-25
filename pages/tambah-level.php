@@ -40,9 +40,8 @@ if (isset($_POST['update'])) {
                 <div class="card-body">
                     <form action="" method="post">
                         <label for="" class="form-label">Level Name</label> <br>
-                        <input type="text" class="form-control w-50" name="name"
-                            value="<?php echo $level['name'] ?? '' ?>" required>
-                        <br><br>
+                        <input type="text" class="form-control w-50 mb-3" name="name"
+                            value="<?php echo $level['name'] ?? '' ?>" placeholder="Enter level name" required>
                         <button type="submit" class="btn btn-primary"
                             name="<?= isset($_GET['edit']) ? 'update' : 'save' ?>"><?= isset($_GET['edit']) ? 'edit' : 'create' ?></button>
                     </form>

@@ -75,10 +75,10 @@ if (isset($_POST['simpan']) || isset($_POST['update'])) {
                             <?php
                             foreach ($categories as $c) {
                             ?>
-                                <option <?php echo isset($p) && $p['category_id'] == $c['id'] ? 'selected' : '' ?>
-                                    value="<?= $c['id'] ?>">
-                                    <?= $c['category_name'] ?>
-                                </option>
+                            <option <?php echo isset($p) && $p['category_id'] == $c['id'] ? 'selected' : '' ?>
+                                value="<?= $c['id'] ?>">
+                                <?= $c['category_name'] ?>
+                            </option>
                             <?php
                             }
                             ?>

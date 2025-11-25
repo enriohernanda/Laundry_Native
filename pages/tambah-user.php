@@ -4,16 +4,20 @@ $id = isset($_GET['edit']) ? $_GET['edit'] : '';
 $queryEdit = mysqli_query($config, "SELECT * FROM users WHERE id='$id'");
 $rowEdit = mysqli_fetch_assoc($queryEdit);
 
+$queryLevels = mysqli_query($config, "SELECT * FROM levels");
+$rowLevels = mysqli_fetch_all($queryLevels, MYSQLI_ASSOC);
+
 if (isset($_POST['update'])) {
     //$_POST ambil simbol inputan
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $level_id = $_POST['level_id'];
     $password = sha1($_POST['password']);
 
     if ($password) {
-        $query = mysqli_query($config, "UPDATE users SET name='$name', email='$email', password='$password' WHERE id='$id'");
+        $query = mysqli_query($config, "UPDATE users SET name='$name', email='$email', password='$password', level_id='$level_id' WHERE id='$id'");
     } else {
-        $query = mysqli_query($config, "UPDATE users SET name='$name', email='$email' WHERE id='$id'");
+        $query = mysqli_query($config, "UPDATE users SET name='$name', email='$email' , level_id='$level_id' WHERE id='$id'");
     }
     if ($query) {
         header("location:?page=user&ubah=berhasil");
@@ -23,9 +27,10 @@ if (isset($_POST['update'])) {
 if (isset($_POST["save"])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $level_id = $_POST['level_id'];
     $password = sha1($_POST['password']);
 
-    $query = mysqli_query($config, "INSERT INTO users (name, email, password) VALUES('$name', '$email', '$password')");
+    $query = mysqli_query($config, "INSERT INTO users (name, email, password, level_id) VALUES('$name', '$email', '$password', '$level_id')");
 
     if ($query) {
         header("location:?page=user&tambah=berhasil");
@@ -48,9 +53,18 @@ if (isset($_POST["save"])) {
                             value="<?php echo $rowEdit['name'] ?? '' ?>">
                     </div>
                     <div class="mb-3">
+                        <label for="" class="form-label fw-bold">Level Name *</label>
+                        <select name="level_id" id="" class="form-select">
+                            <option value="">Choose One</option>
+                            <?php foreach ($rowLevels as $rowLevel): ?>
+                                <option value="<?php echo $rowLevel['id'] ?>"><?php echo $rowLevel['name'] ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="" class="form-label fw-bold">Email</label>
-                        <input class="form-control" type="email" name="email" class="" placeholder="Enter Your Email"
-                            required value="<?php echo $rowEdit['email'] ?? '' ?>">
+                        <input class="form-control" type="email" name="email" class="form-control"
+                            placeholder="Enter Your Email" required value="<?php echo $rowEdit['email'] ?? '' ?>">
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label fw-bold">Password * <small>Leave blank if you don't want to

@@ -45,9 +45,8 @@ if (isset($_POST['update'])) {
                         <input type="text" class="form-control w-50" name="name"
                             value="<?php echo $service['name'] ?? '' ?>" required>
                         <label for="" class="form-label">Price</label> <br>
-                        <input type="text" class="form-control w-50" name="price"
+                        <input type="text" class="form-control w-50 mb-3" name="price"
                             value="<?php echo $service['price'] ?? '' ?>" required>
-                        <br><br>
                         <button type="submit" class="btn btn-primary"
                             name="<?= isset($_GET['edit']) ? 'update' : 'save' ?>"><?= isset($_GET['edit']) ? 'edit' : 'create' ?></button>
                     </form>

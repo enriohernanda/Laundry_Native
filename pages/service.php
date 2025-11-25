@@ -1,5 +1,5 @@
 <?php
-$q_services = mysqli_query($config, "SELECT  * FROM services");
+$q_services = mysqli_query($config, "SELECT  * FROM services ORDER BY id DESC");
 $services = mysqli_fetch_all($q_services, MYSQLI_ASSOC);
 // var_dump($services);
 
@@ -45,23 +45,23 @@ if (isset($_GET['delete'])) {
                             <?php
                             foreach ($services as $key => $service) {
                             ?>
-                            <tr>
-                                <td><?php echo $key + 1 ?></td>
-                                <td><?php echo $service['name'] ?></td>
-                                <td>Rp. <?php echo $service['price'] ?></td>
-                                <td>
-                                    <a class="btn btn-success btn-sm"
-                                        href="?page=tambah-service&edit=<?= $service['id'] ?>">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form class="d-inline" action="?page=service&delete=<?= $service['id'] ?>"
-                                        method="post" onclick="return confirm('Are you sure you want to delete?')">
-                                        <button type="submit" class="btn btn-warning btn-sm">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td><?php echo $key + 1 ?></td>
+                                    <td><?php echo $service['name'] ?></td>
+                                    <td>Rp. <?php echo $service['price'] ?></td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm"
+                                            href="?page=tambah-service&edit=<?= $service['id'] ?>">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form class="d-inline" action="?page=service&delete=<?= $service['id'] ?>"
+                                            method="post" onclick="return confirm('Are you sure you want to delete?')">
+                                            <button type="submit" class="btn btn-warning btn-sm">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
                             <?php
                             }
                             ?>

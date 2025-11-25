@@ -1,13 +1,13 @@
 <?php
-$q_customers = mysqli_query($config, "SELECT  * FROM customers ORDER BY id DESC");
-$customers = mysqli_fetch_all($q_customers, MYSQLI_ASSOC);
-// var_dump($customers);
+$q_menus = mysqli_query($config, "SELECT  * FROM menus ORDER BY id DESC");
+$menus = mysqli_fetch_all($q_menus, MYSQLI_ASSOC);
+// var_dump($menus);
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    $q_delete = mysqli_query($config, "DELETE FROM customers WHERE id = $id");
+    $q_delete = mysqli_query($config, "DELETE FROM menus WHERE id = $id");
 
-    header("location:?page=customer");
+    header("location:?page=menu");
 }
 
 ?>
@@ -27,37 +27,39 @@ if (isset($_GET['delete'])) {
             <div class="card">
                 <div class="card-header">
                     <div class="card-body">
-                        <h3 class="card-title">Data Customers</h3>
+                        <h3 class="card-title">Data Menus</h3>
                     </div>
                     <div class="card-body">
                         <div class="d-flex mb-3 justify-content-end">
-                            <a href="?page=tambah-customer" class="btn btn-primary">
-                                <i class="bi bi-plus-circle"></i> Add Customers
+                            <a href="?page=tambah-menu" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> Add Menus
                             </a>
                         </div>
                         <table class="table table-bordered">
                             <tr>
                                 <th>No</th>
-                                <th>Customer Name</th>
-                                <th>Phone</th>
-                                <th>Address</th>
+                                <th>Name</th>
+                                <th>Icon</th>
+                                <th>Link</th>
                                 <th>Actions</th>
                             </tr>
                             <?php
-                            foreach ($customers as $key => $customer) {
+                            foreach ($menus as $key => $menu) {
                             ?>
                                 <tr>
                                     <td><?php echo $key + 1 ?></td>
-                                    <td><?php echo $customer['name'] ?></td>
-                                    <td><?php echo $customer['phone'] ?></td>
-                                    <td><?php echo $customer['address'] ?></td>
+                                    <td><?php echo $menu['name'] ?></td>
+                                    <!-- <td class="text-center">
+                                    <img class="rounded" src="<?php echo $menu['icon'] ?>" width="115" alt="">
+                                </td> -->
+                                    <td><?php echo $menu['icon'] ?></td>
+                                    <td><?php echo $menu['link'] ?></td>
                                     <td>
-                                        <a class="btn btn-success btn-sm"
-                                            href="?page=tambah-customer&edit=<?= $customer['id'] ?>">
+                                        <a class="btn btn-success btn-sm" href="?page=tambah-menu&edit=<?= $menu['id'] ?>">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <form class="d-inline" action="?page=customer&delete=<?= $customer['id'] ?>"
-                                            method="post" onclick="return confirm('Are you sure you want to delete?')">
+                                        <form class="d-inline" action="?page=menu&delete=<?= $menu['id'] ?>" method="post"
+                                            onclick="return confirm('Are you sure you want to delete?')">
                                             <button type="submit" class="btn btn-warning btn-sm">
                                                 <i class="bi bi-trash"></i>
                                             </button>

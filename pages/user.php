@@ -5,7 +5,7 @@
 // require
 // require_once "config/config.php";
 
-$query = mysqli_query($config, "SELECT * FROM users u ORDER BY u.id DESC");
+$query = mysqli_query($config, "SELECT l.name as level_name, u.* FROM users u LEFT JOIN levels l ON l.id = u.level_id ORDER BY u.id DESC");
 $users = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 // disini parameter delete
@@ -35,6 +35,7 @@ if (isset($_GET['delete'])) {
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Level</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th></th>
@@ -42,22 +43,23 @@ if (isset($_GET['delete'])) {
                     </thead>
                     <tbody>
                         <?php foreach ($users as $key => $value): ?>
-                        <tr>
-                            <td><?php echo $key += 1 ?></td>
-                            <td><?php echo $value['name'] ?></td>
-                            <td><?php echo $value['email'] ?></td>
-                            <td>
-                                <a class="btn btn-success btn-sm"
-                                    href="?page=tambah-user&edit=<?php echo $value['id'] ?>">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <a class="btn btn-warning btn-sm"
-                                    onclick="return confirm('Are you sure you want to delete this data?')"
-                                    href="?page=user&delete=<?php echo $value['id'] ?>">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td><?php echo $key += 1 ?></td>
+                                <td><?php echo $value['level_name'] ?></td>
+                                <td><?php echo $value['name'] ?></td>
+                                <td><?php echo $value['email'] ?></td>
+                                <td>
+                                    <a class="btn btn-success btn-sm"
+                                        href="?page=tambah-user&edit=<?php echo $value['id'] ?>">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-warning btn-sm"
+                                        onclick="return confirm('Are you sure you want to delete this data?')"
+                                        href="?page=user&delete=<?php echo $value['id'] ?>">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
                         <?php endforeach ?>
                     </tbody>
                 </table>
