@@ -1,7 +1,7 @@
 <?php
 $level_id = $_SESSION['LEVEL_ID'] ?? '';
 
-$querylevelMenu = mysqli_query($config, "SELECT * FROM menus JOIN level_menus ON menus.id = level_menus.menu_id WHERE level_id = '$level_id' ORDER BY menus.id DESC");
+$querylevelMenu = mysqli_query($config, "SELECT * FROM menus JOIN level_menus ON menus.id = level_menus.menu_id WHERE level_id = '$level_id' ORDER BY `order` ASC");
 
 $rowLevelMenus = mysqli_fetch_all($querylevelMenu, MYSQLI_ASSOC);
 ?>
