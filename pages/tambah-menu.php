@@ -55,7 +55,7 @@ if (isset($_POST['update'])) {
                             value="<?php echo $menu['link'] ?? '' ?>" placeholder="Enter Link" required>
                         <label for="" class="form-label">Order</label> <br>
                         <input type="text" class="form-control mb-3" name="order"
-                            value="<?php echo $menu['order'] ?? '' ?>" placeholder="Enter Order" required>
+                            value="<?php echo $menu[`order`] ?? '' ?>" placeholder="Enter Order" required>
                         <button type="submit" class="btn btn-primary"
                             name="<?= isset($_GET['edit']) ? 'update' : 'save' ?>"><?= isset($_GET['edit']) ? 'edit' : 'create' ?></button>
                     </form>
