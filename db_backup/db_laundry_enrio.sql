@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2025 at 08:45 AM
+-- Generation Time: Nov 26, 2025 at 08:39 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -86,14 +86,17 @@ CREATE TABLE `level_menus` (
 
 INSERT INTO `level_menus` (`id`, `level_id`, `menu_id`, `created_at`, `updated_at`) VALUES
 (4, 3, 1, '2025-11-25 02:56:18', NULL),
-(34, 1, 6, '2025-11-25 06:28:16', NULL),
-(35, 1, 5, '2025-11-25 06:28:16', NULL),
-(36, 1, 4, '2025-11-25 06:28:16', NULL),
-(37, 1, 3, '2025-11-25 06:28:16', NULL),
-(38, 1, 2, '2025-11-25 06:28:16', NULL),
-(39, 1, 1, '2025-11-25 06:28:16', NULL),
-(41, 2, 3, '2025-11-25 06:41:17', NULL),
-(42, 2, 2, '2025-11-25 06:41:17', NULL);
+(50, 1, 8, '2025-11-26 06:51:58', NULL),
+(51, 1, 7, '2025-11-26 06:51:59', NULL),
+(52, 1, 6, '2025-11-26 06:51:59', NULL),
+(53, 1, 5, '2025-11-26 06:51:59', NULL),
+(54, 1, 4, '2025-11-26 06:51:59', NULL),
+(55, 1, 3, '2025-11-26 06:51:59', NULL),
+(56, 1, 2, '2025-11-26 06:51:59', NULL),
+(57, 1, 1, '2025-11-26 06:51:59', NULL),
+(61, 2, 8, '2025-11-26 06:53:19', NULL),
+(62, 2, 7, '2025-11-26 06:53:19', NULL),
+(63, 2, 6, '2025-11-26 06:53:19', NULL);
 
 -- --------------------------------------------------------
 
@@ -121,7 +124,9 @@ INSERT INTO `menus` (`id`, `name`, `icon`, `link`, `order`, `created_at`, `updat
 (3, 'Service', 'bi bi-book', 'service', 3, '2025-11-25 02:32:14', '2025-11-25 07:40:39'),
 (4, 'Customer', 'bi bi-people', 'customer', 2, '2025-11-25 03:47:37', '2025-11-25 07:40:33'),
 (5, 'Level', 'bi bi-book', 'level', 5, '2025-11-25 03:47:55', '2025-11-25 07:40:29'),
-(6, 'Dashboard', 'bi bi-speedometer', 'dashboard', 1, '2025-11-25 05:01:53', '2025-11-25 07:38:46');
+(6, 'Dashboard', 'bi bi-speedometer', 'dashboard', 1, '2025-11-25 05:01:53', '2025-11-25 07:38:46'),
+(7, 'Tax', 'bi bi-percent', 'tax', 7, '2025-11-26 01:33:46', '2025-11-26 01:35:43'),
+(8, 'Order', 'bi bi-table', 'order', 8, '2025-11-26 06:51:50', NULL);
 
 -- --------------------------------------------------------
 
@@ -146,6 +151,28 @@ INSERT INTO `services` (`id`, `name`, `price`, `description`, `created_at`, `upd
 (1, 'Cuci & gosok', 5000, '', '2025-11-24 06:24:30', '2025-11-24 06:28:01'),
 (2, 'Cuci', 4500, '', '2025-11-24 06:28:15', '2025-11-24 06:28:23'),
 (3, 'Gosok', 5000, '', '2025-11-24 06:28:36', '2025-11-24 07:18:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `taxs`
+--
+
+CREATE TABLE `taxs` (
+  `id` int(11) NOT NULL,
+  `percent` int(11) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `taxs`
+--
+
+INSERT INTO `taxs` (`id`, `percent`, `is_active`, `created_at`, `updated_at`) VALUES
+(3, 12, 1, '2025-11-26 02:43:57', '2025-11-26 02:45:40'),
+(4, 10, 0, '2025-11-26 02:45:50', NULL);
 
 -- --------------------------------------------------------
 
@@ -243,6 +270,12 @@ ALTER TABLE `services`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `taxs`
+--
+ALTER TABLE `taxs`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `trans_orders`
 --
 ALTER TABLE `trans_orders`
@@ -280,19 +313,25 @@ ALTER TABLE `levels`
 -- AUTO_INCREMENT for table `level_menus`
 --
 ALTER TABLE `level_menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `taxs`
+--
+ALTER TABLE `taxs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `trans_orders`
