@@ -1,8 +1,12 @@
 <?php
 include '../config/config.php';
+date_default_timezone_set("Asia/Jakarta");
 
-$queryCat = mysqli_query($config, "SELECT * FROM services");
-$fetchCats = mysqli_fetch_all($queryCat, MYSQLI_ASSOC);
+$queryServices = mysqli_query($config, "SELECT * FROM services");
+$rowServices = mysqli_fetch_all($queryServices, MYSQLI_ASSOC);
+
+$queryCustomers = mysqli_query($config, "SELECT * FROM customers");
+$rowCustomers = mysqli_fetch_all($queryCustomers, MYSQLI_ASSOC);
 
 // query product
 // $queryProducts = mysqli_query($config, "SELECT s.name, p.* FROM products p LEFT JOIN services c ON c.id = p.category_id");
@@ -15,19 +19,18 @@ if (isset($_GET['payment'])) {
     $data = json_decode(file_get_contents('php://input'), true);
 
     $cart = $data["cart"];
-    $total = array_reduce($cart, function ($sum, $item) {
-        return $sum + ($item['product_price'] * $item['quantity']);
-    }, 0);
     $tax = $data['tax'];
     $orderAmount = $data['grandTotal'];
     $orderCode = $data['order_code'];
-    $orderDate = date("Y-m-d H:i:s");
+    $end_date = $data['end_date'];
+    $customer_id = $data['customer_id'];
     $orderChange = 0;
+    $orderPay = 0;
     $orderStatus = 1;
     $subtotal = $data['subtotal'];
 
     try {
-        $insertOrder = mysqli_query($config, "INSERT INTO trans_orders (order_code, order_date, order_amount, order_subtotal, order_status) VALUES ('$orderCode', '$orderDate', '$orderAmount', '$subtotal', '$orderStatus')");
+        $insertOrder = mysqli_query($config, "INSERT INTO trans_orders (order_code, order_end_date, order_total, order_pay, order_change, order_tax, order_status) VALUES ('$orderCode', '$end_date', '$orderAmount', '$orderPay', $orderChange, $tax,'$orderStatus')");
 
         if (!$insertOrder) {
             throw new Exception("Insert failed to table orders", mysqli_error($config));
@@ -36,12 +39,12 @@ if (isset($_GET['payment'])) {
         $idOrder = mysqli_insert_id($config);
 
         foreach ($cart as $v) {
-            $product_id = $v['id'];
-            $qty = $v['quantity'];
-            $order_price = $v['product_price'];
+            $service_id = $v['id'];
+            $qty = $v['qty'];
+            $order_price = $v['price'];
             $subtotal = $qty * $order_price;
 
-            $insertOrderDetails = mysqli_query($config, "INSERT INTO trans_order_details (order_id, product_id, qty, order_price, order_subtotal) VALUES ('$idOrder', '$product_id', '$qty', '$order_price', '$subtotal')");
+            $insertOrderDetails = mysqli_query($config, "INSERT INTO trans_order_details (order_id, service_id, qty, price, subtotal) VALUES ('$idOrder', '$service_id', '$qty', '$order_price', '$subtotal')");
             if (!$insertOrderDetails) {
                 throw new Exception("Insert failed to table orders", mysqli_error($config));
             }
@@ -89,23 +92,97 @@ $order_code = "ORD-" . date('dmy') . str_pad($nextId, 4, "0", STR_PAD_LEFT);
 <body>
     <!-- container-fluid -->
     <div class="container-fluid container-pos">
-        <div id="card">
-            <!-- <h3>Nama Product</h3>
-        <p>Description Product</p> -->
-        </div>
         <div class="row h-100">
             <div class="col-md-7 product-section">
-                <div class="mb-4">
-                    <h4 class="mb-3" id="product-title"><i class="bi bi-shop"></i>
-                        Product
-                    </h4>
-                    <input type="text" id="searchProduct" class="form-control search-box" placeholder="Find Product...">
+                <div class="card shadow-sm mb-3">
+                    <div class="card-header">
+                        Customer
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="" class="form-label">
+                                    Customer Name
+                                </label>
+                                <select name="customer_id" id="customer_id" class="form-select"
+                                    onchange="selectCustomers()">
+                                    <option value="">Select One</option>
+                                    <?php foreach ($rowCustomers as $customer): ?>
+                                        <option data-phone="<?php echo $customer['phone'] ?>"
+                                            value="<?php echo $customer['id'] ?>">
+                                            <?php echo $customer['name'] ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="" class="form-label">
+                                    Phone Number
+                                </label>
+                                <input type="text" class="form-control" placeholder="Phone Number" id="phone" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="" class="form-label">
+                                    End Date
+                                </label>
+                                <input type="date" class="form-control" name="end_date" id="end_date">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <button class="btn btn-primary category-btn active" onclick="filterCategory('all', this)">All
-                        Menu</button>
+                <div class="card shadow-sm mb-3">
+                    <div class="card-header">
+                        Laundry Service
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <?php foreach ($rowServices as $service) : ?>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card service-card p-2"
+                                        onclick="openModal(<?php echo htmlspecialchars(json_encode($service)) ?>)">
+                                        <h6><?php echo $service['name'] ?></h6>
+                                        <small class="text-muted">Rp. <?php echo $service['price'] ?>/kg</small>
+                                    </div>
+                                </div>
+                            <?php endforeach ?>
+                        </div>
+                    </div>
                 </div>
-                <div class="row" id="productGrid">
+                <!-- Button trigger modal -->
+                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Launch demo modal
+                </button> -->
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="modal_id">
+                                <input type="hidden" id="modal_price">
+                                <input type="hidden" id="modal_type">
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Service Name</label>
+                                    <input type="text" id="modal_name" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Weight / Qty</label>
+                                    <input type="number" id="modal_qty" class="form-control" placeholder="Weight / Qty">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="addToCart()">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-5 cart-section">
@@ -140,12 +217,12 @@ $order_code = "ORD-" . date('dmy') . str_pad($nextId, 4, "0", STR_PAD_LEFT);
                     </div>
                     <div class="row g-2">
                         <div class="col-md-6">
-                            <button class="btn fw-bold p-3 btn-danger w-100" id="clearCart">
+                            <button class="btn btn-checkout fw-bold p-3 btn-danger w-100" id="clearCart">
                                 <i class="bi bi-trash"></i> Clear Cart
                             </button>
                         </div>
                         <div class="col-md-6">
-                            <button class="btn fw-bold p-3 btn-primary w-100" onclick="processPayment()">
+                            <button class="btn btn-clear-cart fw-bold p-3 btn-primary w-100" onclick="processPayment()">
                                 <i class="bi bi-cash"></i> Process Payment
                             </button>
                         </div>
