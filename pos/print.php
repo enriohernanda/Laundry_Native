@@ -1,13 +1,21 @@
 <?php
 session_start();
-include '../config/koneksi.php';
+include '../config/config.php';
 // DESC, MAX
-$query = mysqli_query($koneksi, "SELECT * FROM orders ORDER BY id DESC");
+$query = mysqli_query($config, "SELECT * FROM trans_orders ORDER BY id DESC");
 $row = mysqli_fetch_assoc($query);
 
 $order_id = $row['id'];
-$queryDetails = mysqli_query($koneksi, "SELECT p.product_name, od.* FROM order_details od LEFT JOIN products p ON p.id = od.product_id WHERE order_id = '$order_id'");
+$queryDetails = mysqli_query(
+  $config,
+  "SELECT s.name AS service_name, od.* 
+     FROM trans_order_details od
+     LEFT JOIN services s ON s.id = od.service_id
+     WHERE od.order_id = '$order_id'"
+);
+
 $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -135,8 +143,9 @@ $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
       <div class="info-row">
         <?php
         // strtotime
-        $date = date("d-m-Y", strtotime($row['order_date']));
-        $time = date("H:i:s", strtotime($row['order_date']));
+        $date = date("d-m-Y", strtotime($row['created_at']));
+        $time = date("H:i:s", strtotime($row['created_at']));
+
         ?>
         <span><?= $date ?></span>
         <span><?= $time ?></span>
@@ -154,12 +163,13 @@ $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
     <div class="items">
       <?php foreach ($rowDetails as $item): ?>
         <div class="item">
-          <span class="item-name"><?php echo $item['product_name'] ?></span>
-          <span class="item-qty">x<?php echo $item['qty'] ?></span>
-          <span class="item-price"><?php echo number_format($item['order_price']) ?></span>
+          <span class="item-name"><?php echo $item['service_name']; ?></span>
+          <span class="item-qty">x<?php echo $item['qty']; ?></span>
+          <span class="item-price"><?php echo number_format($item['price']); ?></span>
         </div>
       <?php endforeach ?>
     </div>
+
     <div class="separator"></div>
     <div class="totals">
       <div class="total-row">
@@ -174,7 +184,7 @@ $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
     <div class="separator"></div>
     <div class="total-row grand">
       <span>Total</span>
-      <span>Rp. <?php echo $row['order_amount'] ?></span>
+      <span>Rp. <?php echo $row['order_total'] ?></span>
     </div>
     <!-- <div class="payment">
       <div class="total-row">
