@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2025 at 08:39 AM
+-- Generation Time: Nov 27, 2025 at 09:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,7 +42,10 @@ CREATE TABLE `customers` (
 
 INSERT INTO `customers` (`id`, `name`, `phone`, `address`, `created_at`, `updated_at`) VALUES
 (1, 'Enrio', '0812345888', 'Jakarta Utara', '2025-11-24 07:05:32', '2025-11-25 03:00:10'),
-(2, 'Hernanda', '0812345888', 'Bandung', '2025-11-25 02:59:54', '2025-11-25 03:00:04');
+(2, 'Hernanda', '0812345888', 'Bandung', '2025-11-25 02:59:54', '2025-11-25 03:00:04'),
+(3, 'Anugrah', '08121783238', 'Cempaka Putih', '2025-11-27 02:17:46', NULL),
+(4, 'Pambudi', '081737637236', 'Sunter', '2025-11-27 02:17:59', NULL),
+(5, 'Rio', '087774637463', 'Kelapa Gading', '2025-11-27 02:18:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -148,9 +151,9 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `name`, `price`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Cuci & gosok', 5000, '', '2025-11-24 06:24:30', '2025-11-24 06:28:01'),
-(2, 'Cuci', 4500, '', '2025-11-24 06:28:15', '2025-11-24 06:28:23'),
-(3, 'Gosok', 5000, '', '2025-11-24 06:28:36', '2025-11-24 07:18:19');
+(1, 'Wash &  Rub Clothes', 7000, '', '2025-11-24 06:24:30', '2025-11-27 03:08:24'),
+(2, 'Wash', 4500, '', '2025-11-24 06:28:15', '2025-11-27 03:08:00'),
+(3, 'Rub Clothes', 5000, '', '2025-11-24 06:28:36', '2025-11-27 03:08:15');
 
 -- --------------------------------------------------------
 
@@ -194,6 +197,14 @@ CREATE TABLE `trans_orders` (
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `trans_orders`
+--
+
+INSERT INTO `trans_orders` (`id`, `customer_id`, `order_code`, `order_end_date`, `order_status`, `order_pay`, `order_change`, `order_tax`, `order_total`, `created_at`, `updated_at`) VALUES
+(1, 0, 'ORD-2711250001', '2025-11-20', 1, 0, 0, 450, 4950, '2025-11-27 07:56:04', NULL),
+(2, 0, 'ORD-2711250002', '2025-11-26', 1, 0, 0, 900, 9900, '2025-11-27 08:00:26', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -205,10 +216,19 @@ CREATE TABLE `trans_order_details` (
   `order_id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL,
   `qty` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
   `subtotal` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `trans_order_details`
+--
+
+INSERT INTO `trans_order_details` (`id`, `order_id`, `service_id`, `qty`, `price`, `subtotal`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 1, 4500, 4500, '2025-11-27 07:56:04', NULL),
+(2, 2, 2, 2, 4500, 9000, '2025-11-27 08:00:26', NULL);
 
 -- --------------------------------------------------------
 
@@ -301,7 +321,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `levels`
@@ -337,13 +357,13 @@ ALTER TABLE `taxs`
 -- AUTO_INCREMENT for table `trans_orders`
 --
 ALTER TABLE `trans_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `trans_order_details`
 --
 ALTER TABLE `trans_order_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
