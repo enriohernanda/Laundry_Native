@@ -2,16 +2,16 @@
 session_start();
 include '../config/config.php';
 // DESC, MAX
-$query = mysqli_query($config, "SELECT * FROM trans_orders ORDER BY id DESC");
+$id = $_GET['id'] ?? '';
+// $id = isset($_GET['id']) ? $_GET['id'] : '';
+
+$query = mysqli_query($config, "SELECT * FROM trans_orders WHERE id='$id' ORDER BY id DESC");
 $row = mysqli_fetch_assoc($query);
 
 $order_id = $row['id'];
 $queryDetails = mysqli_query(
   $config,
-  "SELECT s.name AS service_name, od.* 
-     FROM trans_order_details od
-     LEFT JOIN services s ON s.id = od.service_id
-     WHERE od.order_id = '$order_id'"
+  "SELECT s.name AS service_name, od.* FROM trans_order_details od LEFT JOIN services s ON s.id = od.service_id WHERE order_id = '$order_id'"
 );
 
 $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
@@ -24,7 +24,7 @@ $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Payment Receipt</title>
+  <title>Laundry Payment Receipt</title>
 
   <!-- internal CSS -->
   <style>
@@ -135,7 +135,7 @@ $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
 <body onload="window.print()">
   <div class="struck-page">
     <div class="header">
-      <h2>Payment Receipt</h2>
+      <h2>Laundry Payment Receipt</h2>
       <p>Jl. Benhil Karet Jakarta Pusat</p>
       <p>0812345678910</p>
     </div>
@@ -186,7 +186,7 @@ $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
       <span>Total</span>
       <span>Rp. <?php echo $row['order_total'] ?></span>
     </div>
-    <!-- <div class="payment">
+    <div class="payment">
       <div class="total-row">
         <span>Cash</span>
         <span>Rp. 100.000</span>
@@ -195,7 +195,7 @@ $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
         <span>Change</span>
         <span>Rp. 50.000</span>
       </div>
-    </div> -->
+    </div>
   </div>
   <hr />
 </body>

@@ -5,10 +5,10 @@ function selectCustomers() {
   }
 
 function openModal(service) {
-    document.getElementById('modal_id').value = service.id
-    document.getElementById('modal_name').value = service.name
-    document.getElementById('modal_price').value = service.price
-    document.getElementById('modal_qty').value = 1
+    document.getElementById('modal_id').value = service.id;
+    document.getElementById('modal_name').value = service.name;
+    document.getElementById('modal_price').value = service.price;
+    document.getElementById('modal_qty').value = service.qty;
 
     new bootstrap.Modal('#exampleModal').show();
 }
@@ -18,8 +18,8 @@ let cart = [];
 function addToCart() {
     const id = document.getElementById('modal_id').value;
     const name = document.getElementById('modal_name').value;
-    const price = parseInt(document.getElementById('modal_price').value);
-    const qty = parseInt(document.getElementById('modal_qty').value);
+    const price = parseFloat(document.getElementById('modal_price').value);
+    const qty = parseFloat(document.getElementById('modal_qty').value);
     
     const existing = cart.find((item) => item.id == id);
     if (existing) {
@@ -47,21 +47,18 @@ function renderCart() {
           </div>
       </div>`;
       updateTotal();
-      return;
+      // return;
   }
   cart.forEach((item, index) => {
     const div = document.createElement("div");
-    div.className =
-      "cart-item d-flex justify-content-between align-items-center mb-2";
+    div.className ="cart-item d-flex justify-content-between align-items-center mb-2";
     div.innerHTML = `
         <div>
           <strong>${item.name}</strong>
           <small>${item.price}</small>
         </div>
         <div class="d-flex align-items-center">
-          <button class="btn btn-outline-secondary me-2" onclick="changeQty(${item.id}, -1)">-</button>
           <span>${item.qty}</span>
-          <button class=" btn btn-outline-secondary ms-2" onclick="changeQty(${item.id}, 1)">+</button>
           <button class="btn btn-danger ms-3" onclick="removeItem(${item.id})">
             <i class="bi bi-trash-fill"></i>
           </button>
@@ -69,6 +66,7 @@ function renderCart() {
     cartContainer.appendChild(div);
   });
   updateTotal();
+  calculateChange(); 
 }
 
 // menghapus item dari cart
@@ -93,8 +91,11 @@ function changeQty(id, x) {
 }
 
 function updateTotal() {
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-    const tax = subtotal * 0.1;
+    const subtotal = cart.reduce((sum, item) => sum + parseFloat(item.price) * parseFloat(item.qty), 0);
+    // const subtotal = price * qty;
+    const taxValue = document.querySelector('.tax').value;
+    let tax = parseInt(taxValue) / 100;
+    tax = subtotal * parseFloat(tax);
     const total = tax + subtotal;
 
     document.getElementById("subtotal").textContent = `Rp. ${subtotal.toLocaleString()}`;
@@ -121,7 +122,7 @@ async function processPayment() {
     const subtotal = document.querySelector('#subtotal_value').value.trim();
     const tax = document.querySelector('#tax_value').value.trim();
     const grandTotal = document.querySelector('#total_value').value.trim();
-    const customer_id = document.getElementById('customer_id').value;
+    const customer_id = parseInt(document.getElementById('customer_id').value);
     const end_date = document.getElementById('end_date').value;
     try {
         const res = await fetch("add-order.php?payment", {
@@ -142,4 +143,13 @@ async function processPayment() {
         console.log("error", error); 
         die;
     }
+}
+
+function calculateChange(){
+  const total = document.getElementById('total_value').value;
+  const pay = parseFloat(document.getElementById('pay').value);
+
+  const change = pay - total;
+  if (change < 0) change = 0;
+  document.getElementById("change").value = change;
 }

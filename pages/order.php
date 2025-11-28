@@ -37,19 +37,19 @@ if (isset($_GET['delete'])) {
                         </tr>
                         <?php foreach ($rows as $key => $v) {
                         ?>
-                            <tr>
-                                <td class="text-center"><?php echo $key + 1 ?></td>
+                            <tr class="text-center">
+                                <td><?php echo $key + 1 ?></td>
                                 <td><?php echo $v['order_code'] ?></td>
                                 <td><?php echo $v['order_end_date'] ?></td>
                                 <td><?php echo $v['order_total'] ?></td>
                                 <td><?php echo $v['order_tax'] ?></td>
                                 <td><?php echo $v['order_pay'] ?></td>
                                 <td><?php echo $v['order_change'] ?></td>
-                                <td class="text-center"><?php echo $v['order_status'] ?></td>
-                                <td class="text-center">
-                                    <a href="?page=tambah-product&edit=<?php echo $v['id'] ?>"
-                                        class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></a>
-                                    <a href="?page=product&delete=<?php echo $v['id'] ?>"
+                                <td><?php echo $v['order_status'] ?></td>
+                                <td>
+                                    <a href="pos/print.php?id=<?php echo $v['id'] ?>" class="btn btn-success btn-sm"><i
+                                            class="bi bi-printer"></i> Print</a>
+                                    <a href="?page=order&delete=<?php echo $v['id'] ?>"
                                         onclick="return confirm('Are you sure you want to delete this data?')"
                                         class="btn btn-warning btn-sm"><i class="bi bi-trash"></i></a>
                                 </td>
