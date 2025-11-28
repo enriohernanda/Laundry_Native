@@ -189,11 +189,11 @@ $rowDetails = mysqli_fetch_all($queryDetails, MYSQLI_ASSOC);
     <div class="payment">
       <div class="total-row">
         <span>Cash</span>
-        <span>Rp. 100.000</span>
+        <span><?php echo $row['order_pay'] ?></span>
       </div>
       <div class="total-row">
         <span>Change</span>
-        <span>Rp. 50.000</span>
+        <span><?php echo $row['order_change'] ?></span>
       </div>
     </div>
   </div>
