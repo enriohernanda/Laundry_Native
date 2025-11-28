@@ -118,32 +118,48 @@ async function processPayment() {
         alert("Cart still empty!");
         return;
     }
+
     const order_code = document.querySelector('.orderNumber').textContent.trim();
     const subtotal = document.querySelector('#subtotal_value').value.trim();
     const tax = document.querySelector('#tax_value').value.trim();
     const grandTotal = document.querySelector('#total_value').value.trim();
     const customer_id = parseInt(document.getElementById('customer_id').value);
     const end_date = document.getElementById('end_date').value;
+
+    const pay = parseFloat(document.getElementById('pay').value);
+    const change = parseFloat(document.getElementById('change').value);
+
     try {
         const res = await fetch("add-order.php?payment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ cart, order_code, subtotal, tax, grandTotal, customer_id, end_date }),
+            body: JSON.stringify({ 
+                cart, 
+                order_code, 
+                subtotal, 
+                tax, 
+                grandTotal, 
+                customer_id, 
+                end_date,
+                pay,
+                change
+            }),
         });
+
         const data = await res.json();
         if (data.status == "success"){
             alert("Transaction Successfully!");
             window.location.href = "print.php";
-        }else{
-          alert("Transaction Failed", data.message);
+        } else {
+            alert("Transaction Failed: " + data.message);
         }
-        
+
     } catch (error) {
-        alert("Upss Transaction failed!")
-        console.log("error", error); 
-        die;
+        alert("Upss Transaction failed!");
+        console.log("error", error);
     }
 }
+
 
 function calculateChange(){
   const total = document.getElementById('total_value').value;

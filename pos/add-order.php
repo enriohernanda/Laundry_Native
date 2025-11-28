@@ -27,16 +27,24 @@ if (isset($_GET['payment'])) {
     $orderCode = $data['order_code'];
     $end_date = $data['end_date'];
     $customer_id = $data['customer_id'];
-    $orderChange = 0;
-    $orderPay = 0;
-    $orderStatus = 1;
     $subtotal = $data['subtotal'];
+    $orderPay = $data['pay'];
+    $orderChange = $data['change'];
+
+    $orderStatus = 1;
 
     try {
-        $insertOrder = mysqli_query($config, "INSERT INTO trans_orders (order_code, order_end_date, order_total, order_pay, order_change, order_tax, order_status, customer_id) VALUES ('$orderCode', '$end_date', '$orderAmount', '$orderPay', '$orderChange', '$tax','$orderStatus', '$customer_id')");
+
+        $insertOrder = mysqli_query(
+            $config,
+            "INSERT INTO trans_orders 
+        (order_code, order_end_date, order_total, order_pay, order_change, order_tax, order_status, customer_id) 
+        VALUES 
+        ('$orderCode', '$end_date', '$orderAmount', '$orderPay', '$orderChange', '$tax', '$orderStatus', '$customer_id')"
+        );
 
         if (!$insertOrder) {
-            throw new Exception("Insert failed to table orders", mysqli_error($config));
+            throw new Exception("Insert failed to table orders: " . mysqli_error($config));
         }
 
         $idOrder = mysqli_insert_id($config);
@@ -47,29 +55,35 @@ if (isset($_GET['payment'])) {
             $order_price = $v['price'];
             $subtotal = $qty * $order_price;
 
-            $insertOrderDetails = mysqli_query($config, "INSERT INTO trans_order_details (order_id, service_id, qty, price, subtotal) VALUES ('$idOrder', '$service_id', '$qty', '$order_price', '$subtotal')");
+            $insertOrderDetails = mysqli_query(
+                $config,
+                "INSERT INTO trans_order_details 
+            (order_id, service_id, qty, price, subtotal) 
+            VALUES 
+            ('$idOrder', '$service_id', '$qty', '$order_price', '$subtotal')"
+            );
+
             if (!$insertOrderDetails) {
-                throw new Exception("Insert failed to table orders", mysqli_error($config));
+                throw new Exception("Insert failed to table order details: " . mysqli_error($config));
             }
         }
 
         mysqli_commit($config);
-        $response = [
+
+        echo json_encode([
             'status' => 'success',
             'message' => 'Transaction success',
             'order_id' => $idOrder,
-            'order_code' => $orderCode,
-        ];
-        echo json_encode($response, 201);
+            'order_code' => $orderCode
+        ], 201);
         die;
     } catch (\Throwable $th) {
         mysqli_rollback($config);
-        $response = ['status' => 'Error', 'message' => $th->getMessage()];
-        echo json_encode($response, 500);
+        echo json_encode(['status' => 'Error', 'message' => $th->getMessage()], 500);
         die;
-        // ['status': '', 'message': ''];
     }
 }
+
 
 $orderNumbers = mysqli_query($config, "SELECT id FROM trans_orders ORDER BY id DESC LIMIT 1");
 $row = mysqli_fetch_assoc($orderNumbers);
