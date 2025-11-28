@@ -17,7 +17,6 @@ $rowtax = mysqli_fetch_assoc($querytax);
 
 
 if (isset($_GET['payment'])) {
-    // transaction
     mysqli_begin_transaction($config);
     $data = json_decode(file_get_contents('php://input'), true);
 
@@ -88,7 +87,6 @@ if (isset($_GET['payment'])) {
 $orderNumbers = mysqli_query($config, "SELECT id FROM trans_orders ORDER BY id DESC LIMIT 1");
 $row = mysqli_fetch_assoc($orderNumbers);
 $nextId = $row ? $row['id'] + 1 : 1;
-// str_pad
 $order_code = "ORD-" . date('dmy') . str_pad($nextId, 4, "0", STR_PAD_LEFT);
 
 ?>
