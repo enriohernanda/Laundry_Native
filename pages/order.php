@@ -11,6 +11,13 @@ if (isset($_GET['delete'])) {
     }
 }
 
+if (isset($_GET['pickup'])) {
+    $id = $_GET['pickup'];
+
+    mysqli_query($config, "UPDATE trans_orders SET order_status = 1 WHERE id = $id");
+    header('location:?page=order');
+}
+
 ?>
 
 <body>
@@ -45,13 +52,27 @@ if (isset($_GET['delete'])) {
                                 <td><?php echo $v['order_tax'] ?></td>
                                 <td><?php echo $v['order_pay'] ?></td>
                                 <td><?php echo $v['order_change'] ?></td>
-                                <td><?php echo $v['order_status'] ?></td>
+                                <td>
+                                <?php 
+                                    if ($v['order_status'] == 0) 
+                                        echo "<span class='badge bg-warning'>Belum diambil</span>";
+                                    else 
+                                        echo "<span class='badge bg-success'>Sudah Diambil</span>";
+                                ?>
+                            </td>
                                 <td>
                                     <a href="pos/print.php?id=<?php echo $v['id'] ?>" class="btn btn-success btn-sm"><i
-                                            class="bi bi-printer"></i> Print</a>
+                                            class="bi bi-printer"></i></a>
+                                    <?php if ($v['order_status'] == 0): ?>
+                                        <a href="?page=order&pickup=<?php echo $v['id']; ?>" 
+                                        class="btn btn-warning btn-sm"
+                                        onclick="return confirm('Konfirmasi customer sudah mengambil laundry?')">
+                                        <i class="bi bi-check-circle"></i>
+                                        </a>
+                                    <?php endif; ?>
                                     <a href="?page=order&delete=<?php echo $v['id'] ?>"
                                         onclick="return confirm('Are you sure you want to delete this data?')"
-                                        class="btn btn-warning btn-sm"><i class="bi bi-trash"></i></a>
+                                        class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
                                 </td>
                             </tr>
                         <?php
