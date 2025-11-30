@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Nov 2025 pada 07.34
+-- Waktu pembuatan: 30 Nov 2025 pada 08.29
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -64,7 +64,8 @@ CREATE TABLE `levels` (
 
 INSERT INTO `levels` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Administrator', '2025-11-28 07:10:13', NULL),
-(2, 'Operator', '2025-11-28 07:10:13', NULL);
+(2, 'Operator', '2025-11-28 07:10:13', NULL),
+(4, 'Pimpinan', '2025-11-30 07:12:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -85,16 +86,17 @@ CREATE TABLE `level_menus` (
 --
 
 INSERT INTO `level_menus` (`id`, `level_id`, `menu_id`, `created_at`, `updated_at`) VALUES
-(4, 1, 9, '2025-11-28 07:35:44', NULL),
-(5, 1, 8, '2025-11-28 07:35:44', NULL),
-(6, 1, 7, '2025-11-28 07:35:44', NULL),
-(7, 1, 6, '2025-11-28 07:35:44', NULL),
-(8, 1, 5, '2025-11-28 07:35:44', NULL),
-(9, 1, 4, '2025-11-28 07:35:44', NULL),
-(10, 1, 3, '2025-11-28 07:35:44', NULL),
-(11, 1, 1, '2025-11-28 07:35:44', NULL),
-(12, 2, 9, '2025-11-30 06:29:04', NULL),
-(13, 2, 6, '2025-11-30 06:29:04', NULL);
+(15, 4, 9, '2025-11-30 07:13:49', NULL),
+(16, 2, 9, '2025-11-30 07:13:53', NULL),
+(17, 2, 6, '2025-11-30 07:13:53', NULL),
+(18, 1, 9, '2025-11-30 07:13:57', NULL),
+(19, 1, 8, '2025-11-30 07:13:57', NULL),
+(20, 1, 7, '2025-11-30 07:13:57', NULL),
+(21, 1, 6, '2025-11-30 07:13:57', NULL),
+(22, 1, 5, '2025-11-30 07:13:57', NULL),
+(23, 1, 4, '2025-11-30 07:13:57', NULL),
+(24, 1, 3, '2025-11-30 07:13:57', NULL),
+(25, 1, 1, '2025-11-30 07:13:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -146,9 +148,10 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `name`, `price`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Gosok', 5000, '', '2025-11-28 07:37:08', NULL),
-(2, 'Cuci & gosok', 10000, '', '2025-11-28 07:37:15', NULL),
-(3, 'Gosok', 4500, '', '2025-11-28 07:37:27', NULL);
+(1, 'Hanya Gosok', 5000, '', '2025-11-28 07:37:08', '2025-11-30 07:24:13'),
+(2, 'Cuci & gosok', 5000, '', '2025-11-28 07:37:15', '2025-11-30 07:23:43'),
+(3, 'Hanya Cuci', 4500, '', '2025-11-28 07:37:27', '2025-11-30 07:24:03'),
+(4, 'Laundry Besar', 7000, '', '2025-11-30 07:24:57', '2025-11-30 07:25:09');
 
 -- --------------------------------------------------------
 
@@ -196,14 +199,9 @@ CREATE TABLE `trans_orders` (
 --
 
 INSERT INTO `trans_orders` (`id`, `customer_id`, `order_code`, `order_end_date`, `order_status`, `order_pay`, `order_change`, `order_tax`, `order_total`, `created_at`, `updated_at`) VALUES
-(11, 1, 'ORD-2811250001', '2025-11-28', 1, 6000, 500, 500, 5500, '2025-11-28 07:50:55', NULL),
-(12, 2, 'ORD-2811250001', '2025-11-28', 1, 20000, 3500, 1500, 16500, '2025-11-28 07:51:17', NULL),
-(13, 3, 'ORD-2811250001', '2025-11-28', 1, 15000, 5100, 900, 9900, '2025-11-28 07:51:35', NULL),
-(14, 1, 'ORD-3011250014', '2025-11-30', 1, 17000, 500, 1500, 16500, '2025-11-30 04:35:48', NULL),
-(15, 2, 'ORD-3011250014', '2025-11-30', 1, 20000, 9000, 1000, 11000, '2025-11-30 04:48:55', NULL),
-(16, 2, 'ORD-3011250016', '2025-11-30', 1, 20000, 3500, 1500, 16500, '2025-11-30 04:49:35', NULL),
-(17, 2, 'ORD-3011250017', '2025-11-30', 1, 17000, 500, 1500, 16500, '2025-11-30 04:54:10', NULL),
-(18, 3, 'ORD-3011250018', '2025-11-30', 1, 20000, 3500, 1500, 16500, '2025-11-30 06:31:06', NULL);
+(20, 1, 'ORD-3011250001', '2025-11-30', 1, 15000, 1250, 1250, 13750, '2025-11-30 07:26:07', NULL),
+(21, 2, 'ORD-3011250001', '2025-11-30', 1, 50000, 26900, 2100, 23100, '2025-11-30 07:26:56', NULL),
+(22, 3, 'ORD-3011250001', '2025-11-30', 1, 20000, 10100, 900, 9900, '2025-11-30 07:27:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -227,40 +225,10 @@ CREATE TABLE `trans_order_details` (
 --
 
 INSERT INTO `trans_order_details` (`id`, `order_id`, `service_id`, `qty`, `price`, `subtotal`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '1.0', 5000, 5000, '2025-11-28 07:38:47', NULL),
-(2, 1, 2, '1.0', 10000, 10000, '2025-11-28 07:38:47', NULL),
-(3, 1, 3, '1.0', 4500, 4500, '2025-11-28 07:38:47', NULL),
-(4, 2, 1, '1.0', 5000, 5000, '2025-11-28 07:39:25', NULL),
-(5, 2, 2, '1.0', 10000, 10000, '2025-11-28 07:39:25', NULL),
-(6, 2, 3, '1.0', 4500, 4500, '2025-11-28 07:39:25', NULL),
-(7, 3, 1, '1.0', 5000, 5000, '2025-11-28 07:39:40', NULL),
-(8, 3, 2, '1.0', 10000, 10000, '2025-11-28 07:39:40', NULL),
-(9, 3, 3, '1.0', 4500, 4500, '2025-11-28 07:39:40', NULL),
-(10, 4, 1, '1.0', 5000, 5000, '2025-11-28 07:42:47', NULL),
-(11, 4, 2, '1.0', 10000, 10000, '2025-11-28 07:42:47', NULL),
-(12, 4, 3, '1.0', 4500, 4500, '2025-11-28 07:42:47', NULL),
-(13, 5, 1, '1.0', 5000, 5000, '2025-11-28 07:43:16', NULL),
-(14, 5, 2, '1.0', 10000, 10000, '2025-11-28 07:43:16', NULL),
-(15, 5, 3, '1.0', 4500, 4500, '2025-11-28 07:43:16', NULL),
-(16, 6, 2, '1.0', 10000, 10000, '2025-11-28 07:44:14', NULL),
-(17, 6, 3, '1.0', 4500, 4500, '2025-11-28 07:44:14', NULL),
-(18, 6, 1, '1.0', 5000, 5000, '2025-11-28 07:44:14', NULL),
-(19, 7, 1, '1.0', 5000, 5000, '2025-11-28 07:45:01', NULL),
-(20, 7, 2, '1.0', 10000, 10000, '2025-11-28 07:45:01', NULL),
-(21, 7, 3, '1.0', 4500, 4500, '2025-11-28 07:45:01', NULL),
-(22, 8, 1, '1.0', 5000, 5000, '2025-11-28 07:46:53', NULL),
-(23, 8, 2, '1.0', 10000, 10000, '2025-11-28 07:46:53', NULL),
-(24, 8, 3, '1.0', 4500, 4500, '2025-11-28 07:46:53', NULL),
-(25, 9, 2, '1.0', 10000, 10000, '2025-11-28 07:47:56', NULL),
-(26, 10, 1, '1.0', 5000, 5000, '2025-11-28 07:49:53', NULL),
-(27, 11, 1, '1.0', 5000, 5000, '2025-11-28 07:50:55', NULL),
-(28, 12, 2, '1.5', 10000, 15000, '2025-11-28 07:51:17', NULL),
-(29, 13, 3, '2.0', 4500, 9000, '2025-11-28 07:51:35', NULL),
-(30, 14, 2, '1.5', 10000, 15000, '2025-11-30 04:35:48', NULL),
-(31, 15, 1, '2.0', 5000, 10000, '2025-11-30 04:48:55', NULL),
-(32, 16, 2, '1.5', 10000, 15000, '2025-11-30 04:49:35', NULL),
-(33, 17, 2, '1.5', 10000, 15000, '2025-11-30 04:54:10', NULL),
-(34, 18, 2, '1.5', 10000, 15000, '2025-11-30 06:31:06', NULL);
+(36, 20, 1, '1.0', 5000, 5000, '2025-11-30 07:26:07', NULL),
+(37, 20, 2, '1.5', 5000, 7500, '2025-11-30 07:26:07', NULL),
+(38, 21, 4, '3.0', 7000, 21000, '2025-11-30 07:26:56', NULL),
+(39, 22, 3, '2.0', 4500, 9000, '2025-11-30 07:27:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -284,7 +252,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `level_id`, `name`, `email`, `password`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Admin', 'admin@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', '2025-11-28 07:03:34', '2025-11-28 07:12:31'),
-(2, 2, 'Operator', 'operator@gmail.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', '2025-11-28 07:05:54', '2025-11-28 07:29:20');
+(2, 2, 'Operator', 'operator@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', '2025-11-28 07:05:54', '2025-11-30 07:15:10'),
+(3, 4, 'Pimpinan', 'pimpinan@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', '2025-11-30 07:13:38', NULL);
 
 --
 -- Indexes for dumped tables
@@ -358,13 +327,13 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT untuk tabel `levels`
 --
 ALTER TABLE `levels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `level_menus`
 --
 ALTER TABLE `level_menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT untuk tabel `menus`
@@ -376,7 +345,7 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT untuk tabel `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `taxs`
@@ -388,19 +357,19 @@ ALTER TABLE `taxs`
 -- AUTO_INCREMENT untuk tabel `trans_orders`
 --
 ALTER TABLE `trans_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT untuk tabel `trans_order_details`
 --
 ALTER TABLE `trans_order_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
