@@ -6,34 +6,45 @@ include 'config/config.php';
 
 checkLogin();
 
-// login sbg operator hanya bisa buka menu transaksi
-// operator coba ganti url
-// $currentPage = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
-// if ($currentPage == 'dashboard') {
-//     return;
-// }
+// ROLE MIDDLEWARE
+$currentPage = $_GET['page'] ?? 'dashboard';
+$level_id    = $_SESSION['LEVEL_ID'] ?? null;
 
-// $level_id = $_SESSION['LEVEL_ID'] ?? '';
+// Jika level tidak ditemukan, blokir
+if (!$level_id) {
+    echo "<h1>Access Denied!</h1>";
+    echo "Your session level is invalid.";
+    exit;
+}
 
-// $query = mysqli_query($config, "SELECT * FROM menus JOIN level_menus ON level_menus.menu_id = menus.id WHERE level_id = '$level_id'");
-// $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
+// Jika admin (level 1), bypass middleware
+if ($level_id == 1) {
+    goto SKIP_ROLE_CHECK;
+}
 
-// $allowed_role = false;
+// Ambil menu sesuai level pengguna
+$sql = "SELECT menus.link 
+        FROM menus 
+        JOIN level_menus ON level_menus.menu_id = menus.id 
+        WHERE level_menus.level_id = '$level_id'";
 
-// foreach ($rows as $row) {
-//     if ($row['link'] == $currentPage) {
-//         $allowed_role = true;
-//         break;
-//     }
-// }
+$query = mysqli_query($config, $sql);
 
-// if (!$allowed_role) {
-//     echo "<h1>Access Failed!</h1>";
-//     echo "You dont have access to this " . ucfirst($currentPage) . " page";
-//     echo "<br>";
-//     echo '<a href="home.php?page=dashboard">Back to Dashboard</a>';
-//     exit;
-// }
+if (!$query) {
+    die("Query Error: " . mysqli_error($config));
+}
+
+$allowed_pages = array_column(mysqli_fetch_all($query, MYSQLI_ASSOC), 'link');
+
+// Jika page tidak ditemukan dalam role
+if (!in_array($currentPage, $allowed_pages) && $currentPage != 'dashboard') {
+    echo "<h1>Access Failed!</h1>";
+    echo "You don't have access to the <strong>" . ucfirst($currentPage) . "</strong> page.<br>";
+    echo '<a href="home.php?page=dashboard">Back to Dashboard</a>';
+    exit;
+}
+
+SKIP_ROLE_CHECK:
 ?>
 
 <!DOCTYPE html>
