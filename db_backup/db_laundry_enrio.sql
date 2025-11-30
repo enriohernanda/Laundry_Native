@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Nov 2025 pada 08.29
+-- Waktu pembuatan: 30 Nov 2025 pada 17.05
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -86,17 +86,19 @@ CREATE TABLE `level_menus` (
 --
 
 INSERT INTO `level_menus` (`id`, `level_id`, `menu_id`, `created_at`, `updated_at`) VALUES
-(15, 4, 9, '2025-11-30 07:13:49', NULL),
 (16, 2, 9, '2025-11-30 07:13:53', NULL),
 (17, 2, 6, '2025-11-30 07:13:53', NULL),
-(18, 1, 9, '2025-11-30 07:13:57', NULL),
-(19, 1, 8, '2025-11-30 07:13:57', NULL),
-(20, 1, 7, '2025-11-30 07:13:57', NULL),
-(21, 1, 6, '2025-11-30 07:13:57', NULL),
-(22, 1, 5, '2025-11-30 07:13:57', NULL),
-(23, 1, 4, '2025-11-30 07:13:57', NULL),
-(24, 1, 3, '2025-11-30 07:13:57', NULL),
-(25, 1, 1, '2025-11-30 07:13:57', NULL);
+(28, 1, 10, '2025-11-30 14:24:18', NULL),
+(29, 1, 9, '2025-11-30 14:24:18', NULL),
+(30, 1, 8, '2025-11-30 14:24:18', NULL),
+(31, 1, 7, '2025-11-30 14:24:18', NULL),
+(32, 1, 6, '2025-11-30 14:24:18', NULL),
+(33, 1, 5, '2025-11-30 14:24:18', NULL),
+(34, 1, 4, '2025-11-30 14:24:18', NULL),
+(35, 1, 3, '2025-11-30 14:24:18', NULL),
+(36, 1, 1, '2025-11-30 14:24:18', NULL),
+(37, 4, 10, '2025-11-30 14:24:28', NULL),
+(38, 4, 6, '2025-11-30 14:24:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -126,7 +128,8 @@ INSERT INTO `menus` (`id`, `name`, `icon`, `link`, `order`, `created_at`, `updat
 (6, 'Dashboard', 'bi bi-speedometer', 'dashboard', 1, '2025-11-28 07:34:16', '2025-11-30 04:30:52'),
 (7, 'Tax', 'bi bi-percent', 'tax', 6, '2025-11-28 07:35:13', '2025-11-30 04:34:50'),
 (8, 'Menu', 'bi bi-menu-down', 'menu', 7, '2025-11-28 07:35:13', '2025-11-30 04:34:33'),
-(9, 'Order', 'bi bi-bag', 'order', 8, '2025-11-28 07:35:34', '2025-11-30 04:34:58');
+(9, 'Order', 'bi bi-bag', 'order', 8, '2025-11-28 07:35:34', '2025-11-30 04:34:58'),
+(10, 'Report', 'bi bi-card-list', 'report', 9, '2025-11-30 14:24:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -201,7 +204,9 @@ CREATE TABLE `trans_orders` (
 INSERT INTO `trans_orders` (`id`, `customer_id`, `order_code`, `order_end_date`, `order_status`, `order_pay`, `order_change`, `order_tax`, `order_total`, `created_at`, `updated_at`) VALUES
 (20, 1, 'ORD-3011250001', '2025-11-30', 1, 15000, 1250, 1250, 13750, '2025-11-30 07:26:07', NULL),
 (21, 2, 'ORD-3011250001', '2025-11-30', 1, 50000, 26900, 2100, 23100, '2025-11-30 07:26:56', NULL),
-(22, 3, 'ORD-3011250001', '2025-11-30', 1, 20000, 10100, 900, 9900, '2025-11-30 07:27:28', NULL);
+(22, 3, 'ORD-3011250001', '2025-11-30', 1, 20000, 10100, 900, 9900, '2025-11-30 07:27:28', NULL),
+(23, 3, 'ORD-3011250023', '2025-11-30', 1, 15000, 3450, 1050, 11550, '2025-11-30 15:25:10', '2025-11-30 15:25:56'),
+(24, 2, 'ORD-3011250024', '2025-11-30', 0, 10000, 1750, 750, 8250, '2025-11-30 15:35:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -228,7 +233,9 @@ INSERT INTO `trans_order_details` (`id`, `order_id`, `service_id`, `qty`, `price
 (36, 20, 1, '1.0', 5000, 5000, '2025-11-30 07:26:07', NULL),
 (37, 20, 2, '1.5', 5000, 7500, '2025-11-30 07:26:07', NULL),
 (38, 21, 4, '3.0', 7000, 21000, '2025-11-30 07:26:56', NULL),
-(39, 22, 3, '2.0', 4500, 9000, '2025-11-30 07:27:28', NULL);
+(39, 22, 3, '2.0', 4500, 9000, '2025-11-30 07:27:28', NULL),
+(40, 23, 4, '1.5', 7000, 10500, '2025-11-30 15:25:10', NULL),
+(41, 24, 2, '1.5', 5000, 7500, '2025-11-30 15:35:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -333,13 +340,13 @@ ALTER TABLE `levels`
 -- AUTO_INCREMENT untuk tabel `level_menus`
 --
 ALTER TABLE `level_menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT untuk tabel `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `services`
@@ -357,13 +364,13 @@ ALTER TABLE `taxs`
 -- AUTO_INCREMENT untuk tabel `trans_orders`
 --
 ALTER TABLE `trans_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT untuk tabel `trans_order_details`
 --
 ALTER TABLE `trans_order_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
