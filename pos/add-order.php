@@ -30,7 +30,7 @@ if (isset($_GET['payment'])) {
     $orderPay = $data['pay'];
     $orderChange = $data['change'];
 
-    $orderStatus = 1;
+    $orderStatus = 0;
 
     try {
 
