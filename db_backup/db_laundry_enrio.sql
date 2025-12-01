@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2025 at 05:50 AM
+-- Generation Time: Dec 01, 2025 at 07:56 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -65,7 +65,7 @@ CREATE TABLE `levels` (
 INSERT INTO `levels` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Administrator', '2025-11-28 07:10:13', NULL),
 (2, 'Operator', '2025-11-28 07:10:13', NULL),
-(4, 'Pimpinan', '2025-11-30 07:12:12', NULL);
+(3, 'Pimpinan', '2025-11-30 07:12:12', '2025-12-01 06:43:03');
 
 -- --------------------------------------------------------
 
@@ -98,7 +98,10 @@ INSERT INTO `level_menus` (`id`, `level_id`, `menu_id`, `created_at`, `updated_a
 (35, 1, 3, '2025-11-30 14:24:18', NULL),
 (36, 1, 1, '2025-11-30 14:24:18', NULL),
 (37, 4, 10, '2025-11-30 14:24:28', NULL),
-(38, 4, 6, '2025-11-30 14:24:28', NULL);
+(38, 4, 6, '2025-11-30 14:24:28', NULL),
+(41, 3, 10, '2025-12-01 06:52:05', NULL),
+(42, 3, 9, '2025-12-01 06:52:05', NULL),
+(43, 3, 6, '2025-12-01 06:52:05', NULL);
 
 -- --------------------------------------------------------
 
@@ -202,10 +205,10 @@ CREATE TABLE `trans_orders` (
 --
 
 INSERT INTO `trans_orders` (`id`, `customer_id`, `order_code`, `order_end_date`, `order_status`, `order_pay`, `order_change`, `order_tax`, `order_total`, `created_at`, `updated_at`) VALUES
-(26, 1, 'ORD-0112250001', '2025-12-01', 1, 10000, 1750, 750, 8250, '2025-12-01 03:20:30', '2025-12-01 03:22:17'),
-(28, 2, 'ORD-0112250027', '2025-12-01', 1, 16000, 600, 1400, 15400, '2025-12-01 03:21:32', '2025-12-01 03:23:05'),
-(29, 3, 'ORD-0112250029', '2025-12-01', 0, 10000, 2575, 675, 7425, '2025-12-01 03:22:00', NULL),
-(30, 1, 'ORD-0112250030', '2025-12-01', 0, 10000, 1750, 750, 8250, '2025-12-01 03:46:36', NULL);
+(29, 3, 'ORD-0112250029', '2025-12-01', 1, 10000, 2575, 675, 7425, '2025-12-01 03:22:00', '2025-12-01 05:08:17'),
+(30, 1, 'ORD-0112250030', '2025-12-01', 1, 10000, 1750, 750, 8250, '2025-12-01 03:46:36', '2025-12-01 06:46:16'),
+(31, 2, 'ORD-0112250031', '2025-12-01', 1, 10000, 4500, 500, 5500, '2025-12-01 06:41:53', '2025-12-01 06:52:55'),
+(32, 1, 'ORD-0112250032', '2025-12-01', 1, 12000, 1000, 1000, 11000, '2025-12-01 06:53:52', '2025-12-01 06:54:04');
 
 -- --------------------------------------------------------
 
@@ -234,7 +237,9 @@ INSERT INTO `trans_order_details` (`id`, `order_id`, `service_id`, `qty`, `price
 (45, 27, 4, 2.0, 7000, 14000, '2025-12-01 03:20:53', NULL),
 (46, 28, 4, 2.0, 7000, 14000, '2025-12-01 03:21:32', NULL),
 (47, 29, 3, 1.5, 4500, 6750, '2025-12-01 03:22:00', NULL),
-(48, 30, 2, 1.5, 5000, 7500, '2025-12-01 03:46:36', NULL);
+(48, 30, 2, 1.5, 5000, 7500, '2025-12-01 03:46:36', NULL),
+(49, 31, 1, 1.0, 5000, 5000, '2025-12-01 06:41:53', NULL),
+(50, 32, 2, 2.0, 5000, 10000, '2025-12-01 06:53:52', NULL);
 
 -- --------------------------------------------------------
 
@@ -259,7 +264,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `level_id`, `name`, `email`, `password`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Admin', 'admin@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', '2025-11-28 07:03:34', '2025-11-28 07:12:31'),
 (2, 2, 'Operator', 'operator@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', '2025-11-28 07:05:54', '2025-11-30 07:15:10'),
-(3, 4, 'Pimpinan', 'pimpinan@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', '2025-11-30 07:13:38', NULL);
+(3, 3, 'Pimpinan', 'pimpinan@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', '2025-12-01 06:44:11', '2025-12-01 06:44:34');
 
 --
 -- Indexes for dumped tables
@@ -327,7 +332,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `levels`
@@ -339,7 +344,7 @@ ALTER TABLE `levels`
 -- AUTO_INCREMENT for table `level_menus`
 --
 ALTER TABLE `level_menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -351,7 +356,7 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `taxs`
@@ -363,19 +368,19 @@ ALTER TABLE `taxs`
 -- AUTO_INCREMENT for table `trans_orders`
 --
 ALTER TABLE `trans_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `trans_order_details`
 --
 ALTER TABLE `trans_order_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
