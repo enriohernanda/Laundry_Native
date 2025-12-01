@@ -14,41 +14,55 @@ if (isset($_GET['delete'])) {
 ?>
 
 <style>
-@media print {
-    header, .header, .navbar {
-        display: none !important;
-    }
+    @media print {
 
-    #sidebar, .sidebar {
-        display: none !important;
-    }
+        header,
+        .header,
+        .navbar {
+            display: none !important;
+        }
 
-    .btn, button, a.btn {
-        display: none !important;
-    }
+        #sidebar,
+        .sidebar {
+            display: none !important;
+        }
 
-    body {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+        .btn,
+        button,
+        a.btn {
+            display: none !important;
+        }
 
-    table {
-        width: 100% !important;
-        border-collapse: collapse !important;
-    }
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
 
-    table th, table td {
-        border: 1px solid #000 !important;
-        padding: 6px !important;
+        table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #000 !important;
+            padding: 6px !important;
+        }
+
+        .badge {
+            background-color: transparent !important;
+            color: #000 !important;
+            padding: 3px 6px !important;
+            font-weight: bold !important;
+        }
     }
-}
 </style>
 
 
 <script>
-function printReport() {
-    window.print();
-}
+    function printReport() {
+        window.print();
+    }
 </script>
 
 
@@ -88,13 +102,13 @@ function printReport() {
                                 <td><?php echo $v['order_pay'] ?></td>
                                 <td><?php echo $v['order_change'] ?></td>
                                 <td>
-                                <?php 
-                                    if ($v['order_status'] == 0) 
-                                        echo "<span class='badge bg-secondary'>Belum diambil</span>";
-                                    else 
-                                        echo "<span class='badge bg-success'>Sudah Diambil</span>";
-                                ?>
-                            </td>
+                                    <?php
+                                    if ($v['order_status'] == 0)
+                                        echo "<span class='badge bg-warning'>Processing</span>";
+                                    else
+                                        echo "<span class='badge bg-success'>Picked Up</span>";
+                                    ?>
+                                               </td>
                             </tr>
                         <?php
                         }
