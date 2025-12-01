@@ -65,7 +65,7 @@ if (isset($_GET['pickup'])) {
                                             class="bi bi-printer"></i></a>
                                     <?php if ($v['order_status'] == 0): ?>
                                         <a href="?page=order&pickup=<?php echo $v['id']; ?>" class="btn btn-warning btn-sm"
-                                            onclick="return confirm('Konfirmasi customer sudah mengambil laundry?')">
+                                            onclick="return confirm('Confirm customer has picked up laundry?')">
                                             <i class="bi bi-check-circle"></i>
                                         </a>
                                     <?php endif; ?>
