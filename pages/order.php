@@ -53,21 +53,20 @@ if (isset($_GET['pickup'])) {
                                 <td><?php echo $v['order_pay'] ?></td>
                                 <td><?php echo $v['order_change'] ?></td>
                                 <td>
-                                <?php 
-                                    if ($v['order_status'] == 0) 
-                                        echo "<span class='badge bg-warning'>Belum diambil</span>";
-                                    else 
-                                        echo "<span class='badge bg-success'>Sudah Diambil</span>";
-                                ?>
-                            </td>
+                                    <?php
+                                    if ($v['order_status'] == 0)
+                                        echo "<span class='badge bg-warning'>Processing</span>";
+                                    else
+                                        echo "<span class='badge bg-success'>Picked Up</span>";
+                                    ?>
+                                               </td>
                                 <td>
                                     <a href="pos/print.php?id=<?php echo $v['id'] ?>" class="btn btn-success btn-sm"><i
                                             class="bi bi-printer"></i></a>
                                     <?php if ($v['order_status'] == 0): ?>
-                                        <a href="?page=order&pickup=<?php echo $v['id']; ?>" 
-                                        class="btn btn-warning btn-sm"
-                                        onclick="return confirm('Konfirmasi customer sudah mengambil laundry?')">
-                                        <i class="bi bi-check-circle"></i>
+                                        <a href="?page=order&pickup=<?php echo $v['id']; ?>" class="btn btn-warning btn-sm"
+                                            onclick="return confirm('Konfirmasi customer sudah mengambil laundry?')">
+                                            <i class="bi bi-check-circle"></i>
                                         </a>
                                     <?php endif; ?>
                                     <a href="?page=order&delete=<?php echo $v['id'] ?>"
