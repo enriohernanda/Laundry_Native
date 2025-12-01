@@ -3,48 +3,17 @@ session_start();
 ob_start();
 include 'inc/functions.php';
 include 'config/config.php';
+include 'inc/middleware.php';
 
 checkLogin();
 
-// ROLE MIDDLEWARE
 $currentPage = $_GET['page'] ?? 'dashboard';
 $level_id    = $_SESSION['LEVEL_ID'] ?? null;
 
-// Jika level tidak ditemukan, blokir
-if (!$level_id) {
-    echo "<h1>Access Denied!</h1>";
-    echo "Your session level is invalid.";
+if (!allow($currentPage)) {
+    include 'pages/notfound.php';
     exit;
 }
-
-// Jika admin (level 1), bypass middleware
-if ($level_id == 1) {
-    goto SKIP_ROLE_CHECK;
-}
-
-// Ambil menu sesuai level pengguna
-$sql = "SELECT menus.link 
-        FROM menus 
-        JOIN level_menus ON level_menus.menu_id = menus.id 
-        WHERE level_menus.level_id = '$level_id'";
-
-$query = mysqli_query($config, $sql);
-
-if (!$query) {
-    die("Query Error: " . mysqli_error($config));
-}
-
-$allowed_pages = array_column(mysqli_fetch_all($query, MYSQLI_ASSOC), 'link');
-
-// Jika page tidak ditemukan dalam role
-if (!in_array($currentPage, $allowed_pages) && $currentPage != 'dashboard') {
-    echo "<h1>Access Failed!</h1>";
-    echo "You don't have access to the <strong>" . ucfirst($currentPage) . "</strong> page.<br>";
-    echo '<a href="home.php?page=dashboard">Back to Dashboard</a>';
-    exit;
-}
-
-SKIP_ROLE_CHECK:
 ?>
 
 <!DOCTYPE html>
